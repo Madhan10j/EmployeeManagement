@@ -64,7 +64,7 @@ const EmployeeForm = () => {
     }
 
     try {
-      const response = await axios.post('http://localhost:5000/api/employees', formData);
+      const response = await axios.post('https://employeemanagement-ob6j.onrender.com', formData);
       alert('Employee registered successfully!');
       handleReset();
     } catch (error) {
