@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import React, { useState } from 'react';
 import axios from 'axios';
 import './EmployeeForm.css';
@@ -25,23 +24,21 @@ const EmployeeForm = () => {
   ];
 
   const validateForm = () => {
-    // Email validation
     if (!formData.email.includes('@') || !formData.email.includes('.')) {
       alert('Please enter a valid email address');
       return false;
     }
-    
+
     if (formData.employeeId.length > 10 || /[^a-zA-Z0-9]/.test(formData.employeeId)) {
       alert('Employee ID must be alphanumeric and max 10 characters');
       return false;
     }
-    
+
     if (formData.phone.length !== 10 || isNaN(formData.phone)) {
       alert('Phone number must be 10 digits');
       return false;
     }
-    
-    // Date validation
+
     const today = new Date();
     const joiningDate = new Date(formData.dateOfJoining);
     if (joiningDate > today) {
@@ -61,7 +58,7 @@ const EmployeeForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+
     if (!validateForm()) {
       return;
     }
@@ -172,6 +169,7 @@ const EmployeeForm = () => {
           <input
             type="date"
             name="dateOfJoining"
+            max = {new Date().toISOString().split('T')[0]}
             value={formData.dateOfJoining}
             onChange={handleChange}
             required
@@ -198,4 +196,4 @@ const EmployeeForm = () => {
   );
 };
 
-export default EmployeeForm; 
+export default EmployeeForm;

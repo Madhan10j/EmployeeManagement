@@ -1,0 +1,23 @@
+{
+  "name": "student-registration-server",
+  "version": "1.0.0",
+  "description": "Student Registration System Backend",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon index.js",
+    "dev": "nodemon index.js"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.21.1",
+    "mysql2": "^3.11.5",
+    "student-registration-server": "file:"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.15"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
