@@ -1,34 +1,86 @@
-/* Styling for the employee list table */
+/* Styling for the employee list container */
+.employee-list {
+  padding: 20px;
+  margin: 20px auto;
+  max-width: 1200px;
+}
+
+/* Header styling */
+.list-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.list-header h2 {
+  margin: 0;
+  color: #333;
+}
+
+.add-employee-button {
+  padding: 10px 20px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.3s;
+}
+
+.add-employee-button:hover {
+  background-color: #45a049;
+}
+
+/* Table styling */
 .employee-list table {
-    width: 100%; /* Ensure table covers full width */
-    border-collapse: collapse; /* Ensures the borders between cells are merged */
-    margin-top: 20px;
+  width: 100%;
+  border-collapse: collapse;
+  background-color: white;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+}
+
+.employee-list th,
+.employee-list td {
+  padding: 12px 15px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+.employee-list th {
+  background-color: #f8f9fa;
+  color: #333;
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 0.85rem;
+}
+
+.employee-list tr:last-child td {
+  border-bottom: none;
+}
+
+.employee-list tbody tr:hover {
+  background-color: #f5f5f5;
+}
+
+/* Loading and error states */
+.employee-list .error {
+  color: #dc3545;
+  text-align: center;
+  padding: 20px;
+}
+
+/* Responsive design */
+@media screen and (max-width: 768px) {
+  .employee-list {
+    padding: 10px;
   }
   
-  /* Table header */
   .employee-list th,
   .employee-list td {
-    padding: 12px 15px;
-    text-align: left;
-    border-bottom: 1px solid #ddd; /* Light gray line between rows */
+    padding: 8px;
+    font-size: 14px;
   }
-  
-  /* Table header background */
-  .employee-list th {
-    background-color: #f4f4f4;
-    color: #555;
-    font-weight: 600;
-  }
-  
-  /* Hover effect for rows */
-  .employee-list tbody tr:hover {
-    background-color: #f9f9f9;
-  }
-  
-  /* Optional: Adjust borders and spacing for better clarity */
-  .employee-list td,
-  .employee-list th {
-    word-wrap: break-word;
-    white-space: normal;
-  }
-  
+}

@@ -49,6 +49,7 @@
   display: flex;
   justify-content: center;
   gap: 10px;
+  margin-top: 20px;
 }
 
 .button-group button {
@@ -59,12 +60,17 @@
   background-color: #4CAF50;
   color: white;
   cursor: pointer;
+  transition: background-color 0.3s;
 }
 
-.button-group button[type="reset"] {
+.button-group button[type="button"] {
   background-color: #f44336;
 }
 
+.button-group .secondary-button {
+  background-color: #2196F3;
+}
+
 .button-group button:hover {
-  opacity: 0.8;
+  opacity: 0.9;
 }

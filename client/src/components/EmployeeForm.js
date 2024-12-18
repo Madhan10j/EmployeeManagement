@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import './EmployeeForm.css';
-import EmployeeList from './EmployeeList';
 
 const EmployeeForm = () => {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
@@ -195,10 +196,11 @@ const EmployeeForm = () => {
           <button type="button" onClick={handleReset}>
             Reset
           </button>
+          <button type="button" onClick={() => navigate('/employees')} className="secondary-button">
+            Employee Details
+          </button>
         </div>
       </form>
-      {/* Pass reloadList as prop */}
-      <EmployeeList reload={reloadList} />
     </div>
   );
 };

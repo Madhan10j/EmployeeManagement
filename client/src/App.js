@@ -1,20 +1,20 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import EmployeeForm from './components/EmployeeForm';
 import EmployeeList from './components/EmployeeList';
-import './App.css';
+
 
 function App() {
-  const [reload, setReload] = useState(false);
-
-  const handleReload = () => {
-    setReload(prev => !prev);
-  };
-
   return (
-    <div className="App">
-      <EmployeeForm onEmployeeAdded={handleReload} />
-      <EmployeeList reload={reload} />
-    </div>
+    <Router>
+      <div className="App">
+        <Routes>
+          <Route path="/" element={<Navigate to="/form" />} />
+          <Route path="/form" element={<EmployeeForm />} />
+          <Route path="/employees" element={<EmployeeList />} />
+        </Routes>
+      </div>
+    </Router>
   );
 }
 
