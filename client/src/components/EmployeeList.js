@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import './EmployeeList.css';
 
@@ -6,6 +7,7 @@ const EmployeeList = ({ reload }) => {
   const [employees, setEmployees] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchEmployees = async () => {
@@ -35,7 +37,12 @@ const EmployeeList = ({ reload }) => {
 
   return (
     <div className="employee-list">
-      <h2>Employee List</h2>
+      <div className="header">
+        <h2>Employee List</h2>
+        <button onClick={() => navigate('/form')} className="add-button">
+          Add Employee
+        </button>
+      </div>
       {employees.length === 0 ? (
         <p>No employees found</p>
       ) : (
@@ -62,7 +69,7 @@ const EmployeeList = ({ reload }) => {
                 <td>{employee.phone}</td>
                 <td>{employee.department}</td>
                 <td>{employee.role}</td>
-                <td>{employee.date_of_joining}</td>
+                <td>{new Date(employee.date_of_joining).toLocaleDateString()}</td>
               </tr>
             ))}
           </tbody>
