@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import './EmployeeForm.css';
+import EmployeeList from './components/EmployeeList';
 
 const EmployeeForm = () => {
   const [formData, setFormData] = useState({
@@ -14,14 +15,9 @@ const EmployeeForm = () => {
     role: ''
   });
 
-  const departments = [
-    'HR',
-    'Engineering',
-    'Marketing',
-    'Finance',
-    'Sales',
-    'Operations'
-  ];
+  const [reloadList, setReloadList] = useState(false); // Trigger for refreshing EmployeeList
+
+  const departments = ['HR', 'Engineering', 'Marketing', 'Finance', 'Sales', 'Operations'];
 
   const validateForm = () => {
     if (!formData.email.includes('@') || !formData.email.includes('.')) {
@@ -67,6 +63,7 @@ const EmployeeForm = () => {
       const response = await axios.post('https://employeemanagement-ob6j.onrender.com/api/employees', formData);
       alert('Employee registered successfully!');
       handleReset();
+      setReloadList((prev) => !prev); // Toggle reload state to refresh EmployeeList
     } catch (error) {
       if (error.response?.data?.error) {
         alert(error.response.data.error);
@@ -103,7 +100,6 @@ const EmployeeForm = () => {
             required
           />
         </div>
-
         <div className="form-group">
           <label>Last Name:</label>
           <input
@@ -114,7 +110,6 @@ const EmployeeForm = () => {
             required
           />
         </div>
-
         <div className="form-group">
           <label>Employee ID:</label>
           <input
@@ -126,7 +121,6 @@ const EmployeeForm = () => {
             maxLength="10"
           />
         </div>
-
         <div className="form-group">
           <label>Email:</label>
           <input
@@ -137,7 +131,6 @@ const EmployeeForm = () => {
             required
           />
         </div>
-
         <div className="form-group">
           <label>Phone:</label>
           <input
@@ -148,7 +141,6 @@ const EmployeeForm = () => {
             required
           />
         </div>
-
         <div className="form-group">
           <label>Department:</label>
           <select
@@ -158,24 +150,24 @@ const EmployeeForm = () => {
             required
           >
             <option value="">Select Department</option>
-            {departments.map(dept => (
-              <option key={dept} value={dept}>{dept}</option>
+            {departments.map((dept) => (
+              <option key={dept} value={dept}>
+                {dept}
+              </option>
             ))}
           </select>
         </div>
-
         <div className="form-group">
           <label>Date of Joining:</label>
           <input
             type="date"
             name="dateOfJoining"
-            max = {new Date().toISOString().split('T')[0]}
+            max={new Date().toISOString().split('T')[0]}
             value={formData.dateOfJoining}
             onChange={handleChange}
             required
           />
         </div>
-
         <div className="form-group">
           <label>Role:</label>
           <input
@@ -186,12 +178,15 @@ const EmployeeForm = () => {
             required
           />
         </div>
-
         <div className="button-group">
           <button type="submit">Submit</button>
-          <button type="button" onClick={handleReset}>Reset</button>
+          <button type="button" onClick={handleReset}>
+            Reset
+          </button>
         </div>
       </form>
+      {/* Pass reloadList as prop */}
+      <EmployeeList reload={reloadList} />
     </div>
   );
 };

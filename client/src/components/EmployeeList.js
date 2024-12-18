@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './EmployeeList.css';
 
-const EmployeeList = () => {
+const EmployeeList = ({ reload }) => {
   const [employees, setEmployees] = useState([]);
   const [error, setError] = useState(null);
 
@@ -11,13 +11,14 @@ const EmployeeList = () => {
       try {
         const response = await axios.get('https://employeemanagement-ob6j.onrender.com/api/employees');
         setEmployees(response.data);
+        setError(null); // Clear any previous errors
       } catch (err) {
         setError('Failed to fetch employee data');
       }
     };
 
     fetchEmployees();
-  }, []);
+  }, [reload]); // Refetch employee data whenever `reload` changes
 
   return (
     <div className="employee-list">
