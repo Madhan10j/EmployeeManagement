@@ -66,29 +66,27 @@ const EmployeeForm = () => {
 
     // Convert form data to match server expectations
     const serverData = {
-      employee_id: formData.employee_id.trim(),
-      first_name: formData.first_name.trim(),
-      last_name: formData.last_name.trim(),
-      email: formData.email.trim(),
-      phone: formData.phone.trim(),
+      employee_id: formData.employee_id.toString(),  // Ensure it's a string
+      first_name: formData.first_name,
+      last_name: formData.last_name,
+      email: formData.email,
+      phone: formData.phone,
       department: formData.department,
-      role: formData.role.trim(),
-      date_of_joining: formData.date_of_joining
+      role: formData.role,
+      date_of_joining: new Date(formData.date_of_joining).toISOString().split('T')[0]  // Format date as YYYY-MM-DD
     };
 
     console.log('Sending data to server:', serverData);
 
     try {
-      const response = await axios.post(
-        'https://employeemanagement-ob6j.onrender.com/api/employees',
-        serverData,
-        {
-          headers: {
-            'Content-Type': 'application/json',
-            'Accept': 'application/json'
-          }
+      const response = await axios({
+        method: 'post',
+        url: 'https://employeemanagement-ob6j.onrender.com/api/employees',
+        data: serverData,
+        headers: {
+          'Content-Type': 'application/json'
         }
-      );
+      });
       
       console.log('Server response:', response.data);
       alert('Employee registered successfully!');
@@ -179,7 +177,7 @@ const EmployeeForm = () => {
             onChange={handleChange}
             required
             placeholder="Enter 10-digit phone number"
-            pattern="[0-9]{10}"
+      
           />
         </div>
         <div className="form-group">
