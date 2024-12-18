@@ -66,25 +66,29 @@ const EmployeeForm = () => {
 
     // Convert form data to match server expectations
     const serverData = {
-      employee_id: formData.employee_id.toString(),  // Ensure it's a string
-      first_name: formData.first_name,
-      last_name: formData.last_name,
-      email: formData.email,
+      employeeId: formData.employee_id,  
+      firstName: formData.first_name,
+      lastName: formData.last_name,
+      email: formData.email.toLowerCase(),
       phone: formData.phone,
       department: formData.department,
       role: formData.role,
-      date_of_joining: new Date(formData.date_of_joining).toISOString().split('T')[0]  // Format date as YYYY-MM-DD
+      dateOfJoining: formData.date_of_joining
     };
 
     console.log('Sending data to server:', serverData);
 
     try {
       const response = await axios({
-        method: 'post',
+        method: 'POST',
         url: 'https://employeemanagement-ob6j.onrender.com/api/employees',
-        data: serverData,
+        data: JSON.stringify(serverData),
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          'Accept': '*/*'
+        },
+        validateStatus: function (status) {
+          return status < 500; 
         }
       });
       
