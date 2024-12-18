@@ -64,13 +64,28 @@ const EmployeeForm = () => {
       return;
     }
 
+    // Convert form data to match server expectations
+    const serverData = {
+      employee_id: formData.employee_id.trim(),
+      first_name: formData.first_name.trim(),
+      last_name: formData.last_name.trim(),
+      email: formData.email.trim(),
+      phone: formData.phone.trim(),
+      department: formData.department,
+      role: formData.role.trim(),
+      date_of_joining: formData.date_of_joining
+    };
+
+    console.log('Sending data to server:', serverData);
+
     try {
       const response = await axios.post(
         'https://employeemanagement-ob6j.onrender.com/api/employees',
-        formData,
+        serverData,
         {
           headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
           }
         }
       );
@@ -82,11 +97,13 @@ const EmployeeForm = () => {
     } catch (error) {
       console.error('Full error:', error);
       console.error('Error response:', error.response?.data);
+      console.error('Error status:', error.response?.status);
+      console.error('Error headers:', error.response?.headers);
       
       if (error.response?.data?.error) {
-        alert(error.response.data.error);
+        alert('Error: ' + error.response.data.error);
       } else {
-        alert('Error registering employee: ' + error.message);
+        alert('Error registering employee. Please check the console for details.');
       }
     }
   };
@@ -117,6 +134,7 @@ const EmployeeForm = () => {
             onChange={handleChange}
             required
             maxLength="10"
+            placeholder="Enter employee ID (alphanumeric)"
           />
         </div>
         <div className="form-group">
@@ -127,6 +145,7 @@ const EmployeeForm = () => {
             value={formData.first_name}
             onChange={handleChange}
             required
+            placeholder="Enter first name"
           />
         </div>
         <div className="form-group">
@@ -137,6 +156,7 @@ const EmployeeForm = () => {
             value={formData.last_name}
             onChange={handleChange}
             required
+            placeholder="Enter last name"
           />
         </div>
         <div className="form-group">
@@ -147,6 +167,7 @@ const EmployeeForm = () => {
             value={formData.email}
             onChange={handleChange}
             required
+            placeholder="Enter email"
           />
         </div>
         <div className="form-group">
@@ -157,6 +178,8 @@ const EmployeeForm = () => {
             value={formData.phone}
             onChange={handleChange}
             required
+            placeholder="Enter 10-digit phone number"
+            pattern="[0-9]{10}"
           />
         </div>
         <div className="form-group">
@@ -183,6 +206,7 @@ const EmployeeForm = () => {
             value={formData.date_of_joining}
             onChange={handleChange}
             required
+            max={new Date().toISOString().split('T')[0]}
           />
         </div>
         <div className="form-group">
@@ -193,6 +217,7 @@ const EmployeeForm = () => {
             value={formData.role}
             onChange={handleChange}
             required
+            placeholder="Enter role"
           />
         </div>
         <div className="button-group">
