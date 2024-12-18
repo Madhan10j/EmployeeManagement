@@ -1,103 +1,33 @@
-/* Container for the employee list */
-.employee-list {
-  background: #ffffff;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  padding: 20px;
-  margin: 20px 0;
-}
-
-/* Table styling */
+/* Styling for the employee list table */
 .employee-list table {
-  width: 100%;
-  border-collapse: separate;
-  border-spacing: 0;
+  width: 100%; /* Ensure table covers full width */
+  border-collapse: collapse; /* Ensures the borders between cells are merged */
   margin-top: 20px;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-}
-
-/* Table header and cells */
-.employee-list th,
-.employee-list td {
-  padding: 16px;
-  text-align: left;
-  border-bottom: 1px solid #eaeaea;
 }
 
 /* Table header */
-.employee-list th {
-  background-color: #f8f9fa;
-  color: #2c3e50;
-  font-weight: 600;
-  text-transform: uppercase;
-  font-size: 0.85rem;
-  letter-spacing: 0.5px;
-}
-
-/* First and last cells rounded corners */
-.employee-list th:first-child {
-  border-top-left-radius: 8px;
-}
-
-.employee-list th:last-child {
-  border-top-right-radius: 8px;
-}
-
-/* Table body rows */
-.employee-list tbody tr {
-  transition: all 0.2s ease;
-}
-
-/* Hover effect */
-.employee-list tbody tr:hover {
-  background-color: #f8f9fa;
-  transform: translateY(-1px);
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-}
-
-/* Cell content */
+.employee-list th,
 .employee-list td {
-  color: #4a5568;
-  font-size: 0.95rem;
+  padding: 12px 15px;
+  text-align: left;
+  border-bottom: 1px solid #ddd; /* Light gray line between rows */
 }
 
-/* Responsive design */
-@media screen and (max-width: 768px) {
-  .employee-list {
-    padding: 10px;
-    margin: 10px 0;
-  }
-
-  .employee-list th,
-  .employee-list td {
-    padding: 12px 10px;
-    font-size: 0.9rem;
-  }
+/* Table header background */
+.employee-list th {
+  background-color: #f4f4f4;
+  color: #555;
+  font-weight: 600;
 }
 
-/* Optional: Status indicators */
-.status-active {
-  color: #38a169;
-  font-weight: 500;
+/* Hover effect for rows */
+.employee-list tbody tr:hover {
+  background-color: #f9f9f9;
 }
 
-.status-inactive {
-  color: #e53e3e;
-  font-weight: 500;
-}
-
-/* Optional: Action buttons */
-.action-button {
-  padding: 6px 12px;
-  border-radius: 4px;
-  border: 1px solid #e2e8f0;
-  background-color: white;
-  color: #4a5568;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.action-button:hover {
-  background-color: #f7fafc;
-  border-color: #cbd5e0;
+/* Optional: Adjust borders and spacing for better clarity */
+.employee-list td,
+.employee-list th {
+  word-wrap: break-word;
+  white-space: normal;
 }

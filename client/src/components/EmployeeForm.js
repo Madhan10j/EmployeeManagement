@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import './EmployeeForm.css';
+import EmployeeList from './EmployeeList';
 
 const EmployeeForm = () => {
-  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
@@ -16,24 +15,18 @@ const EmployeeForm = () => {
     role: ''
   });
 
-  const [reloadList, setReloadList] = useState(false); 
+  const [reloadList, setReloadList] = useState(false); // Trigger for refreshing EmployeeList
 
   const departments = ['HR', 'Engineering', 'Marketing', 'Finance', 'Sales', 'Operations'];
 
   const validateForm = () => {
-    // First check employee ID
-    if (!formData.employeeId ) {
-      alert('Employee ID is required');
+    if (!formData.email.includes('@') || !formData.email.includes('.')) {
+      alert('Please enter a valid email address');
       return false;
     }
 
     if (formData.employeeId.length > 10 || /[^a-zA-Z0-9]/.test(formData.employeeId)) {
       alert('Employee ID must be alphanumeric and max 10 characters');
-      return false;
-    }
-
-    if (!formData.email.includes('@') || !formData.email.includes('.')) {
-      alert('Please enter a valid email address');
       return false;
     }
 
@@ -53,11 +46,10 @@ const EmployeeForm = () => {
   };
 
   const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData(prevData => ({
-      ...prevData,
-      [name]: value
-    }));
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value
+    });
   };
 
   const handleSubmit = async (e) => {
@@ -67,23 +59,24 @@ const EmployeeForm = () => {
       return;
     }
 
-    console.log('Sending data to server:', formData);
+    // Format the data to match the server's expected format
+    const formattedData = {
+      employee_id: formData.employeeId,
+      first_name: formData.firstName,
+      last_name: formData.lastName,
+      email: formData.email,
+      phone: formData.phone,
+      department: formData.department,
+      role: formData.role,
+      date_of_joining: formData.dateOfJoining
+    };
 
     try {
-      const response = await axios.post(
-        'https://employeemanagement-ob6j.onrender.com/api/employees',
-        formData,
-        
-      );
-      
-      console.log('Server response:', response.data);
+      await axios.post('https://employeemanagement-ob6j.onrender.com/api/employees', formattedData);
       alert('Employee registered successfully!');
       handleReset();
-      navigate('/employees');
+      setReloadList(prev => !prev); // Toggle reload state to refresh EmployeeList
     } catch (error) {
-      console.error('Full error:', error);
-      console.error('Error response:', error.response?.data);
-      
       if (error.response?.data?.error) {
         alert(error.response.data.error);
       } else {
@@ -202,11 +195,10 @@ const EmployeeForm = () => {
           <button type="button" onClick={handleReset}>
             Reset
           </button>
-          <button type="button" onClick={() => navigate('/employees')} className="secondary-button">
-            Employee Details
-          </button>
         </div>
       </form>
+      {/* Pass reloadList as prop */}
+      <EmployeeList reload={reloadList} />
     </div>
   );
 };

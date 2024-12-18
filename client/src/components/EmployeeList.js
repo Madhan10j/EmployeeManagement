@@ -1,10 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import './EmployeeList.css';
 
-const EmployeeList = () => {
-  const navigate = useNavigate();
+const EmployeeList = ({ reload }) => {
   const [employees, setEmployees] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -25,7 +23,7 @@ const EmployeeList = () => {
     };
 
     fetchEmployees();
-  }, []); // Remove reload dependency as it's no longer needed
+  }, [reload]); // This will re-run whenever reload changes
 
   if (loading) {
     return <div className="employee-list"><p>Loading employees...</p></div>;
@@ -37,12 +35,7 @@ const EmployeeList = () => {
 
   return (
     <div className="employee-list">
-      <div className="list-header">
-        <h2>Employee List</h2>
-        <button onClick={() => navigate('/form')} className="add-employee-button">
-          Add Employee
-        </button>
-      </div>
+      <h2>Employee List</h2>
       {employees.length === 0 ? (
         <p>No employees found</p>
       ) : (
