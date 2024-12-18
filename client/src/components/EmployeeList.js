@@ -9,7 +9,7 @@ const EmployeeList = () => {
   useEffect(() => {
     const fetchEmployees = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/api/employees');
+        const response = await axios.get('https://employeemanagement-ob6j.onrender.com/api/employees');
         setEmployees(response.data);
       } catch (err) {
         setError('Failed to fetch employee data');
