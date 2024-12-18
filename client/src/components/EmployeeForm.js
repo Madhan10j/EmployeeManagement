@@ -6,28 +6,27 @@ import './EmployeeForm.css';
 const EmployeeForm = () => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
-    firstName: '',
-    lastName: '',
-    employeeId: '',
+    employee_id: '',  
+    first_name: '',   
+    last_name: '',    
     email: '',
     phone: '',
     department: '',
-    dateOfJoining: '',
+    date_of_joining: '', 
     role: ''
   });
 
-  const [reloadList, setReloadList] = useState(false); // Trigger for refreshing EmployeeList
+  const [reloadList, setReloadList] = useState(false); 
 
   const departments = ['HR', 'Engineering', 'Marketing', 'Finance', 'Sales', 'Operations'];
 
   const validateForm = () => {
-    // First check employee ID
-    if (!formData.employeeId || formData.employeeId.trim() === '') {
+    if (!formData.employee_id) {
       alert('Employee ID is required');
       return false;
     }
 
-    if (formData.employeeId.length > 10 || /[^a-zA-Z0-9]/.test(formData.employeeId)) {
+    if (formData.employee_id.length > 10 || /[^a-zA-Z0-9]/.test(formData.employee_id)) {
       alert('Employee ID must be alphanumeric and max 10 characters');
       return false;
     }
@@ -43,7 +42,7 @@ const EmployeeForm = () => {
     }
 
     const today = new Date();
-    const joiningDate = new Date(formData.dateOfJoining);
+    const joiningDate = new Date(formData.date_of_joining);
     if (joiningDate > today) {
       alert('Joining date cannot be in the future');
       return false;
@@ -54,9 +53,17 @@ const EmployeeForm = () => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
+    const fieldMapping = {
+      employeeId: 'employee_id',
+      firstName: 'first_name',
+      lastName: 'last_name',
+      dateOfJoining: 'date_of_joining'
+    };
+
+    const serverFieldName = fieldMapping[name] || name;
     setFormData(prevData => ({
       ...prevData,
-      [name]: value
+      [serverFieldName]: value
     }));
   };
 
@@ -67,25 +74,12 @@ const EmployeeForm = () => {
       return;
     }
 
-    // Format the data to match the server's expected format
-    const formattedData = {
-      employee_id: formData.employeeId.trim(),
-      first_name: formData.firstName,
-      last_name: formData.lastName,
-      email: formData.email,
-      phone: formData.phone,
-      department: formData.department,
-      role: formData.role,
-      date_of_joining: formData.dateOfJoining
-    };
-
-    // Debug log
-    console.log('Sending data to server:', formattedData);
+    console.log('Sending data to server:', formData);
 
     try {
       const response = await axios.post(
         'https://employeemanagement-ob6j.onrender.com/api/employees',
-        formattedData,
+        formData,
         {
           headers: {
             'Content-Type': 'application/json'
@@ -111,13 +105,13 @@ const EmployeeForm = () => {
 
   const handleReset = () => {
     setFormData({
-      firstName: '',
-      lastName: '',
-      employeeId: '',
+      employee_id: '',
+      first_name: '',
+      last_name: '',
       email: '',
       phone: '',
       department: '',
-      dateOfJoining: '',
+      date_of_joining: '',
       role: ''
     });
   };
@@ -127,11 +121,22 @@ const EmployeeForm = () => {
       <h2>Employee Registration Form</h2>
       <form onSubmit={handleSubmit}>
         <div className="form-group">
+          <label>Employee ID:</label>
+          <input
+            type="text"
+            name="employeeId"
+            value={formData.employee_id}
+            onChange={handleChange}
+            required
+            maxLength="10"
+          />
+        </div>
+        <div className="form-group">
           <label>First Name:</label>
           <input
             type="text"
             name="firstName"
-            value={formData.firstName}
+            value={formData.first_name}
             onChange={handleChange}
             required
           />
@@ -141,20 +146,9 @@ const EmployeeForm = () => {
           <input
             type="text"
             name="lastName"
-            value={formData.lastName}
+            value={formData.last_name}
             onChange={handleChange}
             required
-          />
-        </div>
-        <div className="form-group">
-          <label>Employee ID:</label>
-          <input
-            type="text"
-            name="employeeId"
-            value={formData.employeeId}
-            onChange={handleChange}
-            required
-            maxLength="10"
           />
         </div>
         <div className="form-group">
@@ -199,7 +193,7 @@ const EmployeeForm = () => {
             type="date"
             name="dateOfJoining"
             max={new Date().toISOString().split('T')[0]}
-            value={formData.dateOfJoining}
+            value={formData.date_of_joining}
             onChange={handleChange}
             required
           />
