@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import './EmployeeForm.css';
-import EmployeeList from './components/EmployeeList';
+import EmployeeList from './EmployeeList';
 
 const EmployeeForm = () => {
   const [formData, setFormData] = useState({
@@ -15,7 +15,7 @@ const EmployeeForm = () => {
     role: ''
   });
 
-  const [reloadList, setReloadList] = useState(false); // Trigger for refreshing EmployeeList
+  const [reloadList, setReloadList] = useState(false);
 
   const departments = ['HR', 'Engineering', 'Marketing', 'Finance', 'Sales', 'Operations'];
 
@@ -63,7 +63,7 @@ const EmployeeForm = () => {
       const response = await axios.post('https://employeemanagement-ob6j.onrender.com/api/employees', formData);
       alert('Employee registered successfully!');
       handleReset();
-      setReloadList((prev) => !prev); // Toggle reload state to refresh EmployeeList
+      setReloadList(prev => !prev); // Toggle reloadList to trigger EmployeeList refresh
     } catch (error) {
       if (error.response?.data?.error) {
         alert(error.response.data.error);
@@ -185,8 +185,8 @@ const EmployeeForm = () => {
           </button>
         </div>
       </form>
-      {/* Pass reloadList as prop */}
       <EmployeeList reload={reloadList} />
+
     </div>
   );
 };

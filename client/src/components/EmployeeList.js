@@ -4,26 +4,23 @@ import './EmployeeList.css';
 
 const EmployeeList = ({ reload }) => {
   const [employees, setEmployees] = useState([]);
-  const [error, setError] = useState(null);
 
   useEffect(() => {
     const fetchEmployees = async () => {
       try {
         const response = await axios.get('https://employeemanagement-ob6j.onrender.com/api/employees');
         setEmployees(response.data);
-        setError(null); // Clear any previous errors
-      } catch (err) {
-        setError('Failed to fetch employee data');
+      } catch (error) {
+        console.error('Error fetching employees:', error);
       }
     };
 
     fetchEmployees();
-  }, [reload]); // Refetch employee data whenever `reload` changes
+  }, [reload]); // Add reload as a dependency
 
   return (
     <div className="employee-list">
       <h2>Employee List</h2>
-      {error && <p className="error-message">{error}</p>}
       {employees.length === 0 ? (
         <p>No employees found</p>
       ) : (
