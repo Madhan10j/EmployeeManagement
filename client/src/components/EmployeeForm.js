@@ -53,17 +53,9 @@ const EmployeeForm = () => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    const fieldMapping = {
-      employeeId: 'employee_id',
-      firstName: 'first_name',
-      lastName: 'last_name',
-      dateOfJoining: 'date_of_joining'
-    };
-
-    const serverFieldName = fieldMapping[name] || name;
     setFormData(prevData => ({
       ...prevData,
-      [serverFieldName]: value
+      [name]: value
     }));
   };
 
@@ -124,7 +116,7 @@ const EmployeeForm = () => {
           <label>Employee ID:</label>
           <input
             type="text"
-            name="employeeId"
+            name="employee_id"
             value={formData.employee_id}
             onChange={handleChange}
             required
@@ -135,7 +127,7 @@ const EmployeeForm = () => {
           <label>First Name:</label>
           <input
             type="text"
-            name="firstName"
+            name="first_name"
             value={formData.first_name}
             onChange={handleChange}
             required
@@ -145,7 +137,7 @@ const EmployeeForm = () => {
           <label>Last Name:</label>
           <input
             type="text"
-            name="lastName"
+            name="last_name"
             value={formData.last_name}
             onChange={handleChange}
             required
@@ -191,7 +183,7 @@ const EmployeeForm = () => {
           <label>Date of Joining:</label>
           <input
             type="date"
-            name="dateOfJoining"
+            name="date_of_joining"
             max={new Date().toISOString().split('T')[0]}
             value={formData.date_of_joining}
             onChange={handleChange}
