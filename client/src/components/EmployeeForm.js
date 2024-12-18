@@ -6,13 +6,13 @@ import './EmployeeForm.css';
 const EmployeeForm = () => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
-    employee_id: '',  
-    first_name: '',   
-    last_name: '',    
+    firstName: '',
+    lastName: '',
+    employeeId: '',
     email: '',
     phone: '',
     department: '',
-    date_of_joining: '', 
+    dateOfJoining: '',
     role: ''
   });
 
@@ -21,12 +21,13 @@ const EmployeeForm = () => {
   const departments = ['HR', 'Engineering', 'Marketing', 'Finance', 'Sales', 'Operations'];
 
   const validateForm = () => {
-    if (!formData.employee_id) {
+    // First check employee ID
+    if (!formData.employeeId ) {
       alert('Employee ID is required');
       return false;
     }
 
-    if (formData.employee_id.length > 10 || /[^a-zA-Z0-9]/.test(formData.employee_id)) {
+    if (formData.employeeId.length > 10 || /[^a-zA-Z0-9]/.test(formData.employeeId)) {
       alert('Employee ID must be alphanumeric and max 10 characters');
       return false;
     }
@@ -42,7 +43,7 @@ const EmployeeForm = () => {
     }
 
     const today = new Date();
-    const joiningDate = new Date(formData.date_of_joining);
+    const joiningDate = new Date(formData.dateOfJoining);
     if (joiningDate > today) {
       alert('Joining date cannot be in the future');
       return false;
@@ -72,11 +73,7 @@ const EmployeeForm = () => {
       const response = await axios.post(
         'https://employeemanagement-ob6j.onrender.com/api/employees',
         formData,
-        {
-          headers: {
-            'Content-Type': 'application/json'
-          }
-        }
+        
       );
       
       console.log('Server response:', response.data);
@@ -97,13 +94,13 @@ const EmployeeForm = () => {
 
   const handleReset = () => {
     setFormData({
-      employee_id: '',
-      first_name: '',
-      last_name: '',
+      firstName: '',
+      lastName: '',
+      employeeId: '',
       email: '',
       phone: '',
       department: '',
-      date_of_joining: '',
+      dateOfJoining: '',
       role: ''
     });
   };
@@ -113,22 +110,11 @@ const EmployeeForm = () => {
       <h2>Employee Registration Form</h2>
       <form onSubmit={handleSubmit}>
         <div className="form-group">
-          <label>Employee ID:</label>
-          <input
-            type="text"
-            name="employee_id"
-            value={formData.employee_id}
-            onChange={handleChange}
-            required
-            maxLength="10"
-          />
-        </div>
-        <div className="form-group">
           <label>First Name:</label>
           <input
             type="text"
-            name="first_name"
-            value={formData.first_name}
+            name="firstName"
+            value={formData.firstName}
             onChange={handleChange}
             required
           />
@@ -137,10 +123,21 @@ const EmployeeForm = () => {
           <label>Last Name:</label>
           <input
             type="text"
-            name="last_name"
-            value={formData.last_name}
+            name="lastName"
+            value={formData.lastName}
             onChange={handleChange}
             required
+          />
+        </div>
+        <div className="form-group">
+          <label>Employee ID:</label>
+          <input
+            type="text"
+            name="employeeId"
+            value={formData.employeeId}
+            onChange={handleChange}
+            required
+            maxLength="10"
           />
         </div>
         <div className="form-group">
@@ -183,9 +180,9 @@ const EmployeeForm = () => {
           <label>Date of Joining:</label>
           <input
             type="date"
-            name="date_of_joining"
+            name="dateOfJoining"
             max={new Date().toISOString().split('T')[0]}
-            value={formData.date_of_joining}
+            value={formData.dateOfJoining}
             onChange={handleChange}
             required
           />

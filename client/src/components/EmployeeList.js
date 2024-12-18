@@ -25,7 +25,7 @@ const EmployeeList = () => {
     };
 
     fetchEmployees();
-  }, []); 
+  }, []); // Remove reload dependency as it's no longer needed
 
   if (loading) {
     return <div className="employee-list"><p>Loading employees...</p></div>;
