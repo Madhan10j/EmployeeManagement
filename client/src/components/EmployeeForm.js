@@ -15,7 +15,7 @@ const EmployeeForm = () => {
     role: ''
   });
 
-  const [reloadList, setReloadList] = useState(false);
+  const [reloadList, setReloadList] = useState(false); // Trigger for refreshing EmployeeList
 
   const departments = ['HR', 'Engineering', 'Marketing', 'Finance', 'Sales', 'Operations'];
 
@@ -59,11 +59,23 @@ const EmployeeForm = () => {
       return;
     }
 
+    // Format the data to match the server's expected format
+    const formattedData = {
+      employee_id: formData.employeeId,
+      first_name: formData.firstName,
+      last_name: formData.lastName,
+      email: formData.email,
+      phone: formData.phone,
+      department: formData.department,
+      role: formData.role,
+      date_of_joining: formData.dateOfJoining
+    };
+
     try {
-      const response = await axios.post('https://employeemanagement-ob6j.onrender.com/api/employees', formData);
+      await axios.post('https://employeemanagement-ob6j.onrender.com/api/employees', formattedData);
       alert('Employee registered successfully!');
       handleReset();
-      setReloadList(prev => !prev); // Toggle reloadList to trigger EmployeeList refresh
+      setReloadList(prev => !prev); // Toggle reload state to refresh EmployeeList
     } catch (error) {
       if (error.response?.data?.error) {
         alert(error.response.data.error);
@@ -185,8 +197,8 @@ const EmployeeForm = () => {
           </button>
         </div>
       </form>
+      {/* Pass reloadList as prop */}
       <EmployeeList reload={reloadList} />
-
     </div>
   );
 };
