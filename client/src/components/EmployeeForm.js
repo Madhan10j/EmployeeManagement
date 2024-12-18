@@ -1,32 +1,36 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import './EmployeeForm.css';
-import EmployeeList from './EmployeeList';
 
 const EmployeeForm = () => {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
-    firstName: '',
-    lastName: '',
-    employeeId: '',
+    employee_id: '',
+    first_name: '',
+    last_name: '',
     email: '',
     phone: '',
     department: '',
-    dateOfJoining: '',
+    date_of_joining: '',
     role: ''
   });
-
-  const [reloadList, setReloadList] = useState(false); // Trigger for refreshing EmployeeList
 
   const departments = ['HR', 'Engineering', 'Marketing', 'Finance', 'Sales', 'Operations'];
 
   const validateForm = () => {
-    if (!formData.email.includes('@') || !formData.email.includes('.')) {
-      alert('Please enter a valid email address');
+    if (!formData.employee_id) {
+      alert('Employee ID is required');
       return false;
     }
 
-    if (formData.employeeId.length > 10 || /[^a-zA-Z0-9]/.test(formData.employeeId)) {
+    if (formData.employee_id.length > 10 || /[^a-zA-Z0-9]/.test(formData.employee_id)) {
       alert('Employee ID must be alphanumeric and max 10 characters');
+      return false;
+    }
+
+    if (!formData.email.includes('@') || !formData.email.includes('.')) {
+      alert('Please enter a valid email address');
       return false;
     }
 
@@ -36,7 +40,7 @@ const EmployeeForm = () => {
     }
 
     const today = new Date();
-    const joiningDate = new Date(formData.dateOfJoining);
+    const joiningDate = new Date(formData.date_of_joining);
     if (joiningDate > today) {
       alert('Joining date cannot be in the future');
       return false;
@@ -46,10 +50,11 @@ const EmployeeForm = () => {
   };
 
   const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value
-    });
+    const { name, value } = e.target;
+    setFormData(prevData => ({
+      ...prevData,
+      [name]: value
+    }));
   };
 
   const handleSubmit = async (e) => {
@@ -59,24 +64,25 @@ const EmployeeForm = () => {
       return;
     }
 
-    // Format the data to match the server's expected format
-    const formattedData = {
-      employee_id: formData.employeeId,
-      first_name: formData.firstName,
-      last_name: formData.lastName,
-      email: formData.email,
-      phone: formData.phone,
-      department: formData.department,
-      role: formData.role,
-      date_of_joining: formData.dateOfJoining
-    };
-
     try {
-      await axios.post('https://employeemanagement-ob6j.onrender.com/api/employees', formattedData);
+      const response = await axios.post(
+        'https://employeemanagement-ob6j.onrender.com/api/employees',
+        formData,
+        {
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        }
+      );
+      
+      console.log('Server response:', response.data);
       alert('Employee registered successfully!');
       handleReset();
-      setReloadList(prev => !prev); // Toggle reload state to refresh EmployeeList
+      navigate('/employees');
     } catch (error) {
+      console.error('Full error:', error);
+      console.error('Error response:', error.response?.data);
+      
       if (error.response?.data?.error) {
         alert(error.response.data.error);
       } else {
@@ -87,13 +93,13 @@ const EmployeeForm = () => {
 
   const handleReset = () => {
     setFormData({
-      firstName: '',
-      lastName: '',
-      employeeId: '',
+      employee_id: '',
+      first_name: '',
+      last_name: '',
       email: '',
       phone: '',
       department: '',
-      dateOfJoining: '',
+      date_of_joining: '',
       role: ''
     });
   };
@@ -103,11 +109,22 @@ const EmployeeForm = () => {
       <h2>Employee Registration Form</h2>
       <form onSubmit={handleSubmit}>
         <div className="form-group">
+          <label>Employee ID:</label>
+          <input
+            type="text"
+            name="employee_id"
+            value={formData.employee_id}
+            onChange={handleChange}
+            required
+            maxLength="10"
+          />
+        </div>
+        <div className="form-group">
           <label>First Name:</label>
           <input
             type="text"
-            name="firstName"
-            value={formData.firstName}
+            name="first_name"
+            value={formData.first_name}
             onChange={handleChange}
             required
           />
@@ -116,21 +133,10 @@ const EmployeeForm = () => {
           <label>Last Name:</label>
           <input
             type="text"
-            name="lastName"
-            value={formData.lastName}
+            name="last_name"
+            value={formData.last_name}
             onChange={handleChange}
             required
-          />
-        </div>
-        <div className="form-group">
-          <label>Employee ID:</label>
-          <input
-            type="text"
-            name="employeeId"
-            value={formData.employeeId}
-            onChange={handleChange}
-            required
-            maxLength="10"
           />
         </div>
         <div className="form-group">
@@ -173,9 +179,8 @@ const EmployeeForm = () => {
           <label>Date of Joining:</label>
           <input
             type="date"
-            name="dateOfJoining"
-            max={new Date().toISOString().split('T')[0]}
-            value={formData.dateOfJoining}
+            name="date_of_joining"
+            value={formData.date_of_joining}
             onChange={handleChange}
             required
           />
@@ -192,13 +197,12 @@ const EmployeeForm = () => {
         </div>
         <div className="button-group">
           <button type="submit">Submit</button>
-          <button type="button" onClick={handleReset}>
-            Reset
+          <button type="button" onClick={handleReset}>Reset</button>
+          <button type="button" onClick={() => navigate('/employees')} className="secondary-button">
+            Employee Details
           </button>
         </div>
       </form>
-      {/* Pass reloadList as prop */}
-      <EmployeeList reload={reloadList} />
     </div>
   );
 };

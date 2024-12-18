@@ -1,33 +1,34 @@
 /* Styling for the employee list table */
 .employee-list table {
-  width: 100%; /* Ensure table covers full width */
-  border-collapse: collapse; /* Ensures the borders between cells are merged */
-  margin-top: 20px;
-}
-
-/* Table header */
-.employee-list th,
-.employee-list td {
-  padding: 12px 15px;
-  text-align: left;
-  border-bottom: 1px solid #ddd; /* Light gray line between rows */
-}
-
-/* Table header background */
-.employee-list th {
-  background-color: #f4f4f4;
-  color: #555;
-  font-weight: 600;
-}
-
-/* Hover effect for rows */
-.employee-list tbody tr:hover {
-  background-color: #f9f9f9;
-}
-
-/* Optional: Adjust borders and spacing for better clarity */
-.employee-list td,
-.employee-list th {
-  word-wrap: break-word;
-  white-space: normal;
-}
+    width: 100%; /* Ensure table covers full width */
+    border-collapse: collapse; /* Ensures the borders between cells are merged */
+    margin-top: 20px;
+  }
+  
+  /* Table header */
+  .employee-list th,
+  .employee-list td {
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 1px solid #ddd; /* Light gray line between rows */
+  }
+  
+  /* Table header background */
+  .employee-list th {
+    background-color: #f4f4f4;
+    color: #555;
+    font-weight: 600;
+  }
+  
+  /* Hover effect for rows */
+  .employee-list tbody tr:hover {
+    background-color: #f9f9f9;
+  }
+  
+  /* Optional: Adjust borders and spacing for better clarity */
+  .employee-list td,
+  .employee-list th {
+    word-wrap: break-word;
+    white-space: normal;
+  }
+  

@@ -1,7 +1,6 @@
 /* General styling for the form container */
 .employee-form {
-  width: 80%;
-  max-width: 800px;
+  max-width: 600px;
   margin: 0 auto;
   padding: 20px;
   border: 1px solid #ccc;
@@ -12,9 +11,9 @@
 
 .employee-form h2 {
   text-align: center;
+  color: #333;
   margin-bottom: 20px;
   font-size: 24px;
-  color: #333;
 }
 
 /* Styling for form groups */
@@ -24,47 +23,65 @@
 
 .form-group label {
   display: block;
-  font-weight: bold;
   margin-bottom: 5px;
+  color: #555;
 }
 
 .form-group input,
 .form-group select {
   width: 100%;
   padding: 8px;
-  font-size: 16px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-}
-
-.form-group input[type="date"] {
-  padding: 6px;
-}
-
-.form-group select {
-  cursor: pointer;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
 }
 
 .button-group {
   display: flex;
-  justify-content: center;
   gap: 10px;
+  margin-top: 20px;
+  justify-content: center;
 }
 
 .button-group button {
   padding: 10px 20px;
-  font-size: 16px;
   border: none;
-  border-radius: 5px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.3s;
+}
+
+.button-group button[type="submit"] {
   background-color: #4CAF50;
   color: white;
-  cursor: pointer;
 }
 
-.button-group button[type="reset"] {
+.button-group button[type="submit"]:hover {
+  background-color: #45a049;
+}
+
+.button-group button[type="button"] {
   background-color: #f44336;
+  color: white;
 }
 
-.button-group button:hover {
-  opacity: 0.8;
+.button-group button[type="button"]:hover {
+  background-color: #da190b;
+}
+
+.button-group .secondary-button {
+  background-color: #2196F3;
+  color: white;
+}
+
+.button-group .secondary-button:hover {
+  background-color: #0b7dda;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+  outline: none;
+  border-color: #2196F3;
+  box-shadow: 0 0 5px rgba(33, 150, 243, 0.3);
 }
