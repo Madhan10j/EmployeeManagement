@@ -21,13 +21,19 @@ const EmployeeForm = () => {
   const departments = ['HR', 'Engineering', 'Marketing', 'Finance', 'Sales', 'Operations'];
 
   const validateForm = () => {
-    if (!formData.email.includes('@') || !formData.email.includes('.')) {
-      alert('Please enter a valid email address');
+    // First check employee ID
+    if (!formData.employeeId || formData.employeeId.trim() === '') {
+      alert('Employee ID is required');
       return false;
     }
 
     if (formData.employeeId.length > 10 || /[^a-zA-Z0-9]/.test(formData.employeeId)) {
       alert('Employee ID must be alphanumeric and max 10 characters');
+      return false;
+    }
+
+    if (!formData.email.includes('@') || !formData.email.includes('.')) {
+      alert('Please enter a valid email address');
       return false;
     }
 
@@ -47,10 +53,11 @@ const EmployeeForm = () => {
   };
 
   const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value
-    });
+    const { name, value } = e.target;
+    setFormData(prevData => ({
+      ...prevData,
+      [name]: value
+    }));
   };
 
   const handleSubmit = async (e) => {
@@ -62,7 +69,7 @@ const EmployeeForm = () => {
 
     // Format the data to match the server's expected format
     const formattedData = {
-      employee_id: formData.employeeId,
+      employee_id: formData.employeeId.trim(),
       first_name: formData.firstName,
       last_name: formData.lastName,
       email: formData.email,
@@ -72,12 +79,28 @@ const EmployeeForm = () => {
       date_of_joining: formData.dateOfJoining
     };
 
+    // Debug log
+    console.log('Sending data to server:', formattedData);
+
     try {
-      await axios.post('https://employeemanagement-ob6j.onrender.com/api/employees', formattedData);
+      const response = await axios.post(
+        'https://employeemanagement-ob6j.onrender.com/api/employees',
+        formattedData,
+        {
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        }
+      );
+      
+      console.log('Server response:', response.data);
       alert('Employee registered successfully!');
       handleReset();
-      setReloadList(prev => !prev); // Toggle reload state to refresh EmployeeList
+      navigate('/employees');
     } catch (error) {
+      console.error('Full error:', error);
+      console.error('Error response:', error.response?.data);
+      
       if (error.response?.data?.error) {
         alert(error.response.data.error);
       } else {
